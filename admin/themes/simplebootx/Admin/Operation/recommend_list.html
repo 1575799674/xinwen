@@ -1,0 +1,145 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>推荐人列表</a></li>
+    </ul>
+    <form class="well form-search" id="searchForm" method="post" action="{:U('Operation/recommend_list')}">
+        推荐人手机<input type="text" id="mobile" name="formget[mobile]" style="width: 90px;" value="{$formget.mobile}">
+        推荐端
+        <select class="select_2" id="recom_type" name="formget[recom_type]" style="width: 65px;" >
+            <option value='0' {$formget[recom_type]==0?selected:''}>全部</option>
+            <option value='1' {$formget[recom_type]==1?selected:''}>用户</option>
+            <option value='2' {$formget[recom_type]==2?selected:''}>跑客</option>
+        </select>
+        被推荐人手机<input type="text" id="recommended_mobile" name="formget[recommended_mobile]" style="width: 90px;" value="{$formget.recommended_mobile}">
+        被推端
+        <select class="select_2"  id="recommended_type" name="formget[recommended_type]" style="width: 65px;" >
+            <option value='0' {$formget[recommended_type]==0?selected:''}>全部</option>
+            <option value='1' {$formget[recommended_type]==1?selected:''}>用户</option>
+            <option value='2' {$formget[recommended_type]==2?selected:''}>跑客</option>
+        </select>
+        激活状态
+        <select class="select_2"  id="recommended_status" name="formget[recommended_status]" style="width: 80px;" >
+            <option value='-1' {$formget[recommended_status]==-1?selected:''}>全部</option>
+            <option value='0' {$formget[recommended_status]==0?selected:''}>未激活</option>
+            <option value='1' {$formget[recommended_status]==1?selected:''}>已激活</option>
+        </select>
+        被推跑客是否签约：
+        <select class="select_2"  id="is_sign" name="formget[is_sign_recommended]" style="width: 70px;" >
+            <option value='0' {$formget[is_sign_recommended]==0?selected:''}>全部</option>
+            <option value='1' {$formget[is_sign_recommended]==1?selected:''}>否</option>
+            <option value='2' {$formget[is_sign_recommended]==2?selected:''}>是</option>
+        </select>
+        <label class="control-label">推荐时间</label>
+        <input type="text" class="js-date" name="start_time" value="{$formget.start_time}" style="width: 80px;" autocomplete="off">-
+        <input type="text" class="js-date" name="end_time" value="{$formget.end_time}" style="width: 80px;" autocomplete="off">
+
+        &nbsp;&nbsp;
+        <input type="button" class="btn btn-primary" value="搜索" onclick="validatePrarm()"/>
+    </form>
+
+        总数：{$total_count}人
+
+    <form method="post" class="js-ajax-form">
+        <!--<div class="table-actions">-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/sign',array('sign'=>1))}" data-subcheck="true">签约</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelsign',array('unsign'=>1))}" data-subcheck="true">取消签约</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/incubator',array('incubator'=>1))}" data-subcheck="true">领取保温箱</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/freezee',array('freezee'=>1))}" data-subcheck="true" data-msg="您确定冻结账户吗？">冻结</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelfreezee',array('cancelfreezee'=>1))}" data-subcheck="true" data-msg="您确定启用账户吗？">启用</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelaudit',array('audit'=>1))}" data-subcheck="true">取消审核</button>-->
+        <!--</div>-->
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+                <th align="center">序号</th>
+                <th>推荐人手机</th>                
+                <th>推荐人类型</th>
+                <th>被推荐人手机</th>
+                <th>归属地</th>
+                <th>被推荐人类型</th>
+                <th>推荐时间</th>
+                <th>推荐激活状态</th>
+                <th>被推荐人完成单数</th>
+                <th>tree图</th>
+            </tr>
+            </thead>
+            <tbody>
+            <php>$coupon_types=array("1"=>"用户","2"=>"跑客");
+                $recommended_statuses=array("0"=>"未激活","1"=>"已激活");
+            </php>
+            <foreach name="datas" item="vo" key="k">
+                <tr>
+                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.recommend_id}" title="ID:{$vo.recommend_id}"></td>
+                    <td align="center">{$k+1}</td>
+                    <td align="center">{$vo.mobile}</td>                  
+                    <td align="center">{$coupon_types[$vo['recom_person_type']]}</td>
+                    <td align="center">{$vo.recommend_mobile}</td>
+                    <td align="center">{$vo.recommend_mobile_place}</td>
+                    <td align="center">{$coupon_types[$vo['recommended_person_type']]}</td>
+                    <td align="center">{$vo.recommended_time}</td>
+                    <td align="center">{$recommended_statuses[$vo['recommended_status']]}</td>
+                    <td align="center">{$vo['recommended_person_id']|recommended_person_order_count=$vo['recommended_person_type']}</td>
+                    <td align="center">
+                      <a href="{:U('recommend_tree_list',array('recom_person_id'=>$vo[recom_person_id],'recom_person_type'=>$vo['recom_person_type'],'formget'=>$formget))}" >tree图</a>
+                    </td>
+                </tr>
+                
+            </foreach>
+            </tbody>
+        </table>
+        <if condition="empty($datas)">
+            <div style="padding: 30px;text-align: center;color: #999999">
+                <i class="fa fa-database" style="font-size: 38px"></i><br />
+                暂无数据
+            </div>
+        </if>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+
+    function validatePrarm() {
+        var mobile = $("#mobile").val();
+        var recom_type = $("#recom_type").val();
+        var recommended_mobile = $("#recommended_mobile").val();
+        var recommended_type = $("#recommended_type").val();
+
+        if( mobile !="" && mobile != 'undefined'){
+            if(recom_type == "" || recom_type == "undefined" ||　recom_type == '0')
+            {
+                layer.alert('请输入推荐人类别');
+                return ;
+            }else{
+                if( recommended_mobile !="" && recommended_mobile != 'undefined'){
+                    if(recommended_type == "" || recommended_type == "undefined" ||　recommended_type == '0')
+                    {
+                        layer.alert('请输入被推荐人类别');
+                        return ;
+                    }else{
+                        document.getElementById("searchForm").submit();
+                    }
+                }else
+                    document.getElementById("searchForm").submit();
+            }
+        }
+
+        if( recommended_mobile !="" && recommended_mobile != 'undefined'){
+            if(recommended_type == "" || recommended_type == "undefined" ||　recommended_type == '0')
+            {
+                layer.alert('请输入被推荐人类别');
+                return ;
+            }else{
+                document.getElementById("searchForm").submit();
+            }
+        }
+        else
+            document.getElementById("searchForm").submit();
+    }
+</script>
+</body>
+</html>

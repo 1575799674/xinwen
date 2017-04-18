@@ -1,0 +1,86 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('shangwu')}">商务合作</a></li>
+        <li class="active"><a>修改商务合作</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('shangwuedit')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">公告标题:</label>
+                <div class="controls">
+                    <input class="" value="{$data.title}" name="title" type="text" placeholder="" />
+                    <input type="hidden" name="id" value="{$data.id}" />
+
+                </div>
+            </div>
+           <!--  <div class="control-group">
+                <label class="control-label">公告类型:</label>
+                <div class="controls">
+                    <input type="radio" name="message_type" value="1" checked> 用户消息  
+                </div>
+            </div> -->
+            <div class="control-group">
+                <label class="control-label">公司名称:</label>
+                <div class="controls">
+                     <input class="" name="name" value="{$data.name}" type="text" placeholder="" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">需求:</label>
+                <div class="controls">
+                    <textarea class="" name="xuqiu" rows="5" cols="60" style="width: 90%" placeholder="">{$data.xuqiu}</textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">电话:</label>
+                <div class="controls">
+                     <input class="" name="phone" value="{$data.phone}" type="text" placeholder="" />
+                </div>
+            </div>
+
+          <!--  <div class="control-group">
+                <label class="control-label">公告正文:</label>
+                <div class="controls">
+                    <textarea class="" id="content" name="content" rows="10" cols="30" placeholder=""></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">有效时间:</label>
+                <div class="controls">
+                    <input class="js-date" name="validate_time" type="text" placeholder="" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">头条:</label>
+                <div class="controls">
+                    <input type="checkbox" name="is_top" value="1" checked>是   <input type="checkbox" name="is_top" value="2"> 否
+
+                </div>
+            </div> 
+ -->
+
+
+        </fieldset>
+        <div class="form-actions">
+
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('sahngwu')}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.DIMAUB;
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    var editorcontent = new baidu.editor.ui.Editor();
+    editorcontent.render('content');
+</script>
+</body>
+</html>

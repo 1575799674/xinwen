@@ -1,0 +1,58 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('Operation/coupon_list')}">优惠券列表</a></li>
+        <li class="active"><a>优惠券激活情况</a></li>
+    </ul>
+
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th align="center">ID</th>
+                <th>用户名</th>
+                <th>优惠券类型</th>
+                <th>数值</th>
+                <th>说明</th>
+                <th>有效期</th>
+                <th>来源备注</th>
+                <th>是否被使用</th>
+                <th>最高抵扣金额</th>
+                <th>优惠key</th>
+            </tr>
+            </thead>
+            <tbody>
+            <php>$coupon_type=array("1"=>"抵扣券","2"=>"折扣券");
+                $is_useded=array("1"=>"未使用","2"=>"已使用");
+            </php>
+            <foreach name="datas" item="vo">
+                <tr>
+                    <td align="center">{$vo.user_coupon_id}</td>
+                    <td align="center">{$vo.user_id|getUserName}</td>
+                    <td align="center">{$coupon_type[$vo['coupon_type']]}</td>
+                    <td align="center">{$vo.coupon_value}</td>
+                    <td align="center">{$vo.remark}</td>
+                    <td align="center">{$vo.valid_end_time}</td>
+                    <td align="center">{$vo.from_remark}</td>
+                    <td align="center">{$is_useded[$vo['is_used']]}</td>
+                    <td align="center">{$vo.highest_deduct_amount}</td>
+                    <td align="center">{$vo.coupon_key}</td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <input name="is_complete" type="hidden" value="{$formget.is_complete}">
+        <div>
+            <a class="btn" href="{:U('Operation/coupon_list',array('is_complete'=>$formget['is_complete']))}">{:L('BACK')}</a>
+        </div>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+
+</script>
+</body>
+</html>

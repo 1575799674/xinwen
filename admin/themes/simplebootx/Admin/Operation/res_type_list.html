@@ -1,0 +1,74 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>物品类型列表</a></li>
+        <li><a href="{:U('res_type_add')}">新增物品类型</a></li>
+    </ul>
+
+    <form method="post" class="js-ajax-form">
+        <div class="table-actions">
+        <button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Operation/res_type_sorts')}">{:L('SORT')}</button>
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/sign',array('sign'=>1))}" data-subcheck="true">签约</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelsign',array('unsign'=>1))}" data-subcheck="true">取消签约</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/incubator',array('incubator'=>1))}" data-subcheck="true">领取保温箱</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/freezee',array('freezee'=>1))}" data-subcheck="true" data-msg="您确定冻结账户吗？">冻结</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelfreezee',array('cancelfreezee'=>1))}" data-subcheck="true" data-msg="您确定启用账户吗？">启用</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelaudit',array('audit'=>1))}" data-subcheck="true">取消审核</button>-->
+        </div>
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+
+                <th>类别</th>
+                <th align="center">排序</th>
+                <th>类型名称</th>
+                <th>保价金额</th>
+                <th align="center">
+                    操作
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <php> $types = array('1'=>'取送类别','2'=>'代买类别','3'=>'排队类别');</php>
+            <foreach name="datas" item="vo" key="k">
+                <tr>
+                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.res_type_id}" title="ID:{$vo.res_type_id}"></td>
+                    <td align="center">{$types[$vo[type]]}</td>
+                    <td><input name="listorders[{$vo.res_type_id}]" class="input input-order" type="text" size="5" value="{$vo.sort}" title="ID:{$vo.res_type_id}"></td>
+                    <td align="center">{$vo.res_type}</td>
+                    <td align="center">{$vo.insur_account}</td>
+                    <td align="center">
+                        <a href="{:U('res_type_edit')}&res_type_id={$vo.res_type_id}">修改</a>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;<a href="{:U('res_type_del')}&res_type_id={$vo.res_type_id}" class="js-ajax-delete">删除</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="table-actions">
+            <button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Operation/res_type_sorts')}">{:L('SORT')}</button>
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/sign',array('sign'=>1))}" data-subcheck="true">签约</button>-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelsign',array('unsign'=>1))}" data-subcheck="true">取消签约</button>-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/incubator',array('incubator'=>1))}" data-subcheck="true">领取保温箱</button>-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/freezee',array('freezee'=>1))}" data-subcheck="true" data-msg="您确定冻结账户吗？">冻结</button>-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelfreezee',array('cancelfreezee'=>1))}" data-subcheck="true" data-msg="您确定启用账户吗？">启用</button>-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelaudit',array('audit'=>1))}" data-subcheck="true">取消审核</button>-->
+        </div>
+        <if condition="empty($datas)">
+            <div style="padding: 30px;text-align: center;color: #999999">
+                <i class="fa fa-database" style="font-size: 38px"></i><br />
+                暂无数据
+            </div>
+        </if>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+
+</script>
+</body>
+</html>

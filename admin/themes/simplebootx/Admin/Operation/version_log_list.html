@@ -1,0 +1,62 @@
+<admintpl file="header" />
+
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">版本管理</a></li>
+        <li><a href="{:U('version_log_add')}">新增版本</a></li>
+    </ul>
+
+    <form method="post" class="js-ajax-form">
+        <!--<div class="table-actions">-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/sign',array('sign'=>1))}" data-subcheck="true">签约</button>-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelsign',array('unsign'=>1))}" data-subcheck="true">取消签约</button>-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/incubator',array('incubator'=>1))}" data-subcheck="true">领取保温箱</button>-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/freezee',array('freezee'=>1))}" data-subcheck="true" data-msg="您确定冻结账户吗？">冻结</button>-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelfreezee',array('cancelfreezee'=>1))}" data-subcheck="true" data-msg="您确定启用账户吗？">启用</button>-->
+            <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelaudit',array('audit'=>1))}" data-subcheck="true">取消审核</button>-->
+        <!--</div>-->
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+                <th align="center">序号</th>
+                <th>版本号</th>
+                <th>更新时间</th>
+                <th>更新内容</th>
+                <th align="center">
+                  操作
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="datas" item="vo" key="k">
+                <tr >
+                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.vid}" title="ID:{$vo.vid}"></td>
+                    <td align="center">{$k+1}</td>
+                    <td align="center">{$vo.version_num}</td>
+                    <td>{$vo['time']}</td>
+                    <td>{$vo['update_content']}</td>
+                    <td align="center">
+                        <a href="{:U('Operation/version_log_edit')}&vid={$vo.vid}">编辑</a>| <a href="{:U('Operation/version_log_del')}&vid={$vo.vid}" class="js-ajax-delete">删除</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <if condition="empty($datas)">
+            <div style="padding: 30px;text-align: center;color: #999999">
+                <i class="fa fa-database" style="font-size: 38px"></i><br />
+                暂无数据
+            </div>
+        </if>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+
+</script>
+</body>
+</html>

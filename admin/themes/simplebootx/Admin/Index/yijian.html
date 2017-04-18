@@ -1,0 +1,72 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap">
+   <!--  <ul class="nav nav-tabs">
+        <li class="active"><a>商务合作</a></li>
+        <li><a href="{:U('shangwuadd')}">新增商务合作</a></li>
+    </ul>
+ -->
+    <form method="post" class="js-ajax-form">
+        <!--<div class="table-actions">-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/sign',array('sign'=>1))}" data-subcheck="true">签约</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelsign',array('unsign'=>1))}" data-subcheck="true">取消签约</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/incubator',array('incubator'=>1))}" data-subcheck="true">领取保温箱</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/freezee',array('freezee'=>1))}" data-subcheck="true" data-msg="您确定冻结账户吗？">冻结</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelfreezee',array('cancelfreezee'=>1))}" data-subcheck="true" data-msg="您确定启用账户吗？">启用</button>-->
+        <!--<button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Bdrunpeople/cancelaudit',array('audit'=>1))}" data-subcheck="true">取消审核</button>-->
+        <!--</div>-->
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+                <th align="center">序号</th>
+                <th>设备</th>
+               <!--  <th>时间</th> -->
+                <th>系统</th>
+                <th>系统版本</th>
+                <th>客户端版本</th>
+                <th>联系方式</th>
+                <th>意见</th>
+                <th>反馈时间</th>
+                <!-- <th align="center">
+                    操作
+                </th> -->
+            </tr>
+            </thead>
+            <tbody>
+            <php>$message_type=array("1"=>"用户消息","2"=>"跑客消息");</php>
+            <foreach name="message_data" item="vo" key="k">
+                <tr>
+                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.dispatch_id}" title="ID:{$vo.dispatch_id}"></td>
+                    <td align="center">{$k+1}</td>
+                    <td align="center">{$vo.shebei}</td>
+                  <!--   <td>{$vo['send_time']}</td> -->
+                    <td>{$vo.xitong}</td>
+                    <td>{$vo.banben}</td>
+                    <td>{$vo.kehuduan}</td>
+                    <td>{$vo.phone}</td>
+                    <td>{$vo.yijian}</td>
+                    <td>{$vo.shijian}</td>
+                    <!-- <td align="center">
+                       <a href="{:U('shangwuedit')}&id={$vo.id}">编辑</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{:U('shangwudel')}&id={$vo.id}" class="js-ajax-delete">删除</a>
+                    </td> -->
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <if condition="empty($message_data)">
+            <div style="padding: 30px;text-align: center;color: #999999">
+                <i class="fa fa-database" style="font-size: 38px"></i><br />
+                暂无数据
+            </div>
+        </if>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+
+</script>
+</body>
+</html>

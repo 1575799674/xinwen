@@ -1,0 +1,33 @@
+<admintpl file="header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>帮币奖惩规则编辑</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('coin_rule_edit')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">奖惩币额:</label>
+                <div class="controls">
+                    <input class="" name="rule_value" type="text" value="{$data.rule_value}" placeholder=""/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">奖惩说明:</label>
+                <div class="controls">
+                    <textarea class="" name="remark" rows="10" cols="30" placeholder="">{$data.remark}</textarea>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input name="rule_id" type="hidden" value="{$data.rule_id}">
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('coin_rule_list')}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+
+</body>
+</html>

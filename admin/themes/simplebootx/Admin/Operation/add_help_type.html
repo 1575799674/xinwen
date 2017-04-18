@@ -1,0 +1,64 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('help_type')}">帮助类型管理</a></li>
+        <li class="active"><a>添加根类型</a></li>
+    </ul>
+
+    <form class="form-horizontal js-ajax-form" action="{:U('add_help_type')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">上级名称:</label>
+                <div class="controls">
+                    <select name="parent_id">
+                        <option name="parent_id" value="0">根级类型</option>
+                        <foreach name="helpTypeData" item="vo">
+                            <php>if($helpType_data['help_type_id']==$vo['help_type_id']){</php>
+                            <option name="parent_id" selected="selected" value={$vo['help_type_id']}>{$vo['help_name']}</option>
+                            <php>}else{</php>
+                            <option name="parent_id" value={$vo['help_type_id']}>{$vo['help_name']}</option>
+                            <php>}</php>
+                        </foreach>
+                    </select>
+                </div>
+            </div>
+     <!--      <div class="control-group">
+                <div class="controls">
+                    <input name="parent_id" value="{$helpType_data['help_type_id']}" type="hidden">
+                </div>
+            </div>-->
+            <div class="control-group">
+                <label class="control-label">类别名称:</label>
+                <div class="controls">
+                    <input class="" name="help_name" type="text" placeholder=""/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">类别编码:</label>
+                <div class="controls">
+                    <input class="" name="help_code" type="text" placeholder=""/>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input name="level" value="1" type="hidden">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">备注:</label>
+                <div class="controls">
+                    <textarea name="remark" rows="5" cols="57" style="width: 500px;"></textarea>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('help_type')}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

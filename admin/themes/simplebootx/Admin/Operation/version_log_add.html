@@ -1,0 +1,36 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">新增版本</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('Operation/version_log_add')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">版本号:</label>
+                <div class="controls">
+                    <input class="" name="version_num" type="text" placeholder=""/> *
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">更新内容:</label>
+                <div class="controls">
+                    <input class="" name="update_content" type="text"placeholder=""/> *
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">更新时间:</label>
+                <div class="controls">
+                    <label class="control-label"></label>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

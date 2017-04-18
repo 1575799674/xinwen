@@ -1,0 +1,58 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#">查看推送</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">标题:</label>
+                <div class="controls">
+                    <label >{$datas.title}</label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">推送App端:</label>
+                <div class="controls">
+                    <php>
+                        $pushType=array('1'=>'跑腿端','2'=>'跑客端');
+                    </php>
+                    <label >{$pushType[$datas[push_type]]}</label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">推送平台:</label>
+                <div class="controls">
+                    <php>
+                        $platform=array('1'=>全平台,'2'=>'安卓','3'=>'IOS');
+                    </php>
+                    <label >{$platform[$datas[push_type]]}</label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">消息:</label>
+                <div class="controls">
+                    <label >
+                        {$datas[message_id]|get_noticeTitle}
+                    </label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">推送正文:</label>
+                <div class="controls">
+                    <label >{$datas.content}</label>
+
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input name="vid" value="{$datas.pid}" type="hidden">
+            <a class="btn" href="{:U('push_list')}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

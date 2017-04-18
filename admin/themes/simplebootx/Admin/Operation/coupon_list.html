@@ -1,0 +1,163 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>优惠券列表</a></li>
+        <li><a href="{:U('conpon_add')}">新增优惠券</a></li>
+    </ul>
+    <form class="well form-search" method="post" name="search" action="{:U('Operation/coupon_list')}">
+        是否兑换完：
+        <select class="select_2" name="is_complete" id="is_complete" style="width: 70px;" >
+            <option value='-1'>全部</option>
+            <option value='0' {:I("is_complete")==0?selected:''}>否</option>
+            <option value='1' {:I("is_complete")==1?selected:''}>是</option>
+        </select> &nbsp;&nbsp;
+        <input type="submit" class="btn btn-primary" value="搜索" />
+    </form>
+    <form method="post" class="js-ajax-form">
+        <!-- <div class="table-actions">
+           <button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Operation/coupon_push',array('coupon_push'=>1))}" data-subcheck="true" data-msg="您确定发布吗？">发布</button>        </div>-->
+            <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+                <th align="center">序号</th>
+                <th>城市</th>
+                <th>优惠标题</th>
+                <th>优惠key</th>
+                <th>优惠类型</th>
+                <th>剩余数量</th>
+                <th>截止有效期</th>
+                <th align="center">
+                    操作
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <php>$coupon_type=array("1"=>"抵扣券","2"=>"折扣券");</php>
+            <foreach name="coupon_data" item="vo" key="k">
+                <tr>
+                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.coupon_id}" title="ID:{$vo.coupon_id}"></td>
+                    <td align="center">{$k+1}</td>
+                    <td align="center">{$vo.city_id|getCityName}</td>
+                    <td align="center">{$vo.title}</td>
+                    <td align="center">{$vo.coupon_key}</td>
+                    <td align="center">{$coupon_type[$vo['coupon_type']]}</td>
+                    <td align="center">{$vo.surplus_num}</td>
+                    <td align="center">{$vo.valid_end_time}</td>
+                    <td align="center">
+                        <if condition="$vo['is_push'] ==''| $vo['is_push'] =='0'">
+                            <a href="{:U('Operation/coupon_push',array('coupon_id'=>empty($vo['coupon_id'])?'':$vo['coupon_id'],is_complete=>$formget['is_complete']))}" class="js-ajax-dialog-btn" data-subcheck="true" data-msg="您确定发布吗？">发布 </a>|
+                            <a href="{:U('coupon_edit',array('coupon_id'=>empty($vo['coupon_id'])?'':$vo['coupon_id'],is_complete=>$formget['is_complete']))}">修改</a> |
+                            <a href="{:U('coupon_del',array('coupon_id'=>empty($vo['coupon_id'])?'':$vo['coupon_id'],is_complete=>$formget['is_complete']))}" class="js-ajax-delete">删除</a>
+                        </if>
+                        <if condition="$vo['is_push'] =='1'">
+                        <a href="{:U('coupon_active')}&coupon_id={$vo.coupon_id}&is_complete={$formget['is_complete']}">查看激活情况</a>
+                        </if>
+
+                        <!--&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{:U('notice_del')}&coupon_id={$vo.coupon_id}" class="js-ajax-delete">删除</a>-->
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <if condition="empty($coupon_data)">
+            <div style="padding: 30px;text-align: center;color: #999999">
+                <i class="fa fa-database" style="font-size: 38px"></i><br />
+                暂无数据
+            </div>
+        </if>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+
+</script>
+</body>
+</html>
+<!--
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>优惠券列表</a></li>
+        <li><a href="{:U('conpon_add')}">新增优惠券</a></li>
+    </ul>
+    <form class="well form-search" method="post" name="search" action="{:U('Operation/coupon_list')}">
+        是否兑换完：
+        <select class="select_2" name="is_complete" id="is_complete" style="width: 70px;" >
+            <option value='-1'>全部</option>
+            <option value='0' {:I("is_complete")==0?selected:''}>否</option>
+            <option value='1' {:I("is_complete")==1?selected:''}>是</option>
+        </select> &nbsp;&nbsp;
+        <input type="submit" class="btn btn-primary" value="搜索" />
+    </form>
+    <form method="post" class="js-ajax-form">
+  -->
+        <!--(原) <div class="table-actions">
+           <button class="btn btn-primary btn-small js-ajax-submit" type="submit" data-action="{:U('Operation/coupon_push',array('coupon_push'=>1))}" data-subcheck="true" data-msg="您确定发布吗？">发布</button>        </div>-->
+           <!-- <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+                <th align="center">序号</th>
+                <th>城市</th>
+                <th>优惠标题</th>
+                <th>优惠key</th>
+                <th>优惠类型</th>
+                <th>剩余数量</th>
+                <th>有效天数</th>
+                <th>有效截止时间</th>
+                <th align="center">
+                    操作
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <php>$coupon_type=array("1"=>"抵扣券","2"=>"折扣券");</php>
+            <foreach name="coupon_data" item="vo" key="k">
+                <tr>
+                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.coupon_id}" title="ID:{$vo.coupon_id}"></td>
+                    <td align="center">{$k+1}</td>
+                    <td align="center">{$vo.city_id|getCityName}</td>
+                    <td align="center">{$vo.title}</td>
+                    <td align="center">{$vo.coupon_key}</td>
+                    <td align="center">{$coupon_type[$vo['coupon_type']]}</td>
+                    <td align="center">{$vo.surplus_num}</td>
+                    <td align="center">{$vo.effective_days}</td>
+                    <td align="center">{$vo.valid_end_time}</td>
+                    <td align="center">
+                        <if condition="$vo['is_push'] ==''| $vo['is_push'] =='0'">
+                            <a href="{:U('Operation/coupon_push',array('coupon_id'=>empty($vo['coupon_id'])?'':$vo['coupon_id'],is_complete=>$formget['is_complete']))}" class="js-ajax-dialog-btn" data-subcheck="true" data-msg="您确定发布吗？">发布 </a>|
+                            <a href="{:U('coupon_edit',array('coupon_id'=>empty($vo['coupon_id'])?'':$vo['coupon_id'],is_complete=>$formget['is_complete']))}">修改</a> |
+                            <a href="{:U('coupon_del',array('coupon_id'=>empty($vo['coupon_id'])?'':$vo['coupon_id'],is_complete=>$formget['is_complete']))}" class="js-ajax-delete">删除</a>
+                        </if>
+                        <if condition="$vo['is_push'] =='1'">
+                        <a href="{:U('coupon_active')}&coupon_id={$vo.coupon_id}&is_complete={$formget['is_complete']}">查看激活情况</a>
+                        </if>
+ -->
+                        <!--(原)&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{:U('notice_del')}&coupon_id={$vo.coupon_id}" class="js-ajax-delete">删除</a>-->
+                        <!--
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <if condition="empty($coupon_data)">
+            <div style="padding: 30px;text-align: center;color: #999999">
+                <i class="fa fa-database" style="font-size: 38px"></i><br />
+                暂无数据
+            </div>
+        </if>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+
+</script>
+</body>
+</html>
+   -->

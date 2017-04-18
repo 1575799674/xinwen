@@ -1,0 +1,111 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="">修改帮助</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('online_help_edit')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">帮助编码:</label>
+                <div class="controls">
+                    <input class="" name="help_code" type="text" value="{$onlineHelpData['help_code']}" placeholder=""/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">帮助类别:</label>
+           <!--     <div class="controls">
+                    <select name="help_type_id">
+                        <foreach name="helpTypeData" item="vo">
+
+                            <php>if($onlineHelpData['help_type_id'] == $vo['help_type_id']){</php>
+                            <option name={$vo.help_type_id} value={$vo.help_type_id} selected="selected">{$vo['help_name']}</option>
+                            <php>}else{</php>
+                            <option name={$vo.help_type_id} value={$vo.help_type_id}>{$vo['help_name']}</option>
+                            <php>}</php>
+                        </foreach>
+                    </select>
+                </div>-->
+                <div class="controls">
+                    <select onchange="typeChanged();" id="parent_id"  name="parent_id">
+                        <volist name="helpTypeRootData" id="vo">
+                            <if condition="$onlineHelpData['parent_id'] == $vo['help_type_id']" >
+                            <option value="{$vo.help_type_id}" selected>{$vo.help_name}</option>
+                                <else/>
+                                {$vo['help_type_id']}
+                                <option value="{$vo.help_type_id}" >{$vo.help_name}</option>
+                            </if>
+                        </volist>
+                    </select>
+
+                <php>if(count($helpTypeData)>0){ </php>
+
+                <select name="help_type_id" id="help_type_id">
+                    <volist name="helpTypeData" id="vo">
+                        <if condition="$onlineHelpData['help_type_id'] == $vo['help_type_id']" >
+                            <option value="{$vo.help_type_id}" selected>{$vo.help_name}</option>
+                            <else/>
+                            <option value="{$vo.help_type_id}" >{$vo.help_name}</option>
+                        </if>
+                    </volist>
+                </select>
+                <php>}else{</php>
+                <select name="help_type_id" id="help_type_id">
+                </select>
+                <php>}</php>
+                    </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">帮助内容:</label>
+                <div class="controls">
+                    <script id="container" name="help_content" type="text/plain"><php> echo html_entity_decode($onlineHelpData['help_content']) </php></script>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">备注:</label>
+                <div class="controls">
+                    <input class="" name="remark" value="{$onlineHelpData['remark']}" placeholder=""/>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input name="help_id" value="{$onlineHelpData['help_id']}" type="hidden">
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('online_help')}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script>
+    function typeChanged(type_id){
+
+        $.ajax({
+            url:"{:U('Operation/help_type_upapi')}",
+            data:"parent_id="+$("#parent_id").val(),
+            dataType:"JSON",
+            success:function(ret){
+
+                cmbAddOption(ret.retValue);
+            }
+        });
+    }
+
+    function cmbAddOption(ret)
+    {
+        $("#help_type_id").empty();
+        var opetion = null;
+        for(var i =0; i<ret.length;i++){
+            opetion+= '<option value="'+ret[i].help_type_id+'">'+ret[i].help_name+'</option>';
+        }
+        $("#help_type_id").append(opetion);
+    }
+</script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    var ue = UE.getEditor('container');
+</script>
+</body>
+</html>

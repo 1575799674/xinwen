@@ -1,0 +1,83 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('Operation/push_list')}">推送管理</a></li>
+        <li class="active"><a href="#">添加推送</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('Operation/push_add')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">标题:</label>
+                <div class="controls">
+                    <input class="" name="title" type="text" placeholder="" value="{$datas.title}"/> *
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">推送平台:</label>
+                <div class="controls">
+                    <input type="radio" name="platform" value="1" checked> 全平台
+                    <input type="radio" name="platform" value="2"> 安卓
+                    <input type="radio" name="platform" value="3"> IOS
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">推送App端:</label>
+                <div class="controls">
+                    <select onchange="pushTypeChanged();" name="push_type" id="push_type">
+                        <option value="">==请选择==</option>
+                        <option value="1">跑腿端</option>
+                        <option value="2">跑客端</option>
+                    </select> *
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">消息:</label>
+                <div class="controls">
+                        <select class="select_2" name="message_id"  id="message_id" style="width: 350px;" >
+
+                        </select> *
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">推送正文:</label>
+                <div class="controls">
+                    <textarea name="content" cols="" rows="">{$datas.content}</textarea> *
+
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('Operation/push_list')}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+    function pushTypeChanged(){
+
+        $.ajax({
+            url:"{:U('message_api')}",
+            data:"push_type="+$("#push_type").val(),
+            dataType:"JSON",
+            success:function(ret){
+                cmbAddOption(ret.retValue);
+            }
+        });
+    }
+
+    function cmbAddOption(ret)
+    {
+        $("#message_id").empty();
+        var opetion = null;
+        for(var i =0; i<ret.length;i++){
+            opetion+= '<option value="'+ret[i].message_id+'">'+ret[i].title+'</option>';
+        }
+        $("#message_id").append(opetion);
+    }
+
+</script>
+</body>
+</html>

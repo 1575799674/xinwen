@@ -1,0 +1,75 @@
+<admintpl file="header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('res_type_list')}">在线反馈列表</a></li>
+        <li class="active"><a>在线反馈回复</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('Operation/feedback_rdit',$formget)}" method="post">
+        <php>
+            $user_types=array("1"=>'用户',"2"=>'派单员');
+            $feedback_types=array("1"=>'反馈',"2"=>'投诉');
+            $feedback_statuses=array("0"=>'未回复',"1"=>'回复');
+        </php>
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">反馈人类型:</label>
+                <div class="controls">
+                    <label >{$user_types[$data[user_type]]}</label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">反馈类型:</label>
+                <div class="controls">
+                    <label>{$feedback_types[$data[feedback_type]]}</label>
+                   </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">反馈人电话:</label>
+                <div class="controls">
+                    <label>{$data.mobile}</label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">反馈时间:</label>
+                <div class="controls">
+                    <label>{$data.feedback_time}</label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">反馈主题:</label>
+                <div class="controls">
+                    <label>{$data.feedback_title}</label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">反馈内容:</label>
+                <div class="controls">
+                    <label>{$data.feedback_content}</label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">回复内容:</label>
+                <div class="controls">
+                    <textarea name="feedback_reply" cols="20" rows="5">{$data.feedback_reply}</textarea>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions"><!--   为“保存”按钮  传递查询条件的值   -->
+            <input name="feedback_id" type="hidden" value="{$data.feedback_id}">
+            <input name="formget[mobile]" type="hidden" value="{$formget['mobile']}">
+            <input name="formget[start_time]" type="hidden" value="{$formget['start_time']}">
+            <input name="formget[end_time]" type="hidden" value="{$formget['end_time']}">
+            <input name="formget[user_type]" type="hidden" value="{$formget['user_type']}">
+            <input name="formget[feedback_type]" type="hidden" value="{$formget['feedback_type']}">
+
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('feedback_list',array('formget'=>$formget))}">{:L('BACK')}</a><!--   为“返回”按钮  传递查询条件的值   -->
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+
+</body>
+</html>

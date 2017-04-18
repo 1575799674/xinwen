@@ -1,0 +1,113 @@
+<admintpl file="header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>优惠信息修改</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('Operation/discount_edit')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">城市:</label>
+                <div class="controls">
+                    <select onchange="CityChanged();" id="city"  name="province_id">
+                        <option value="">==请选择省==</option>
+                        <volist name="province_data" id="vo">
+                            <if condition="$data['province_id'] == $vo['id']" >
+                                <option value="{$vo.id}" selected>{$vo.name}</option>
+                                <else/>
+                                <option value="{$vo.id}" >{$vo.name}</option>
+                            </if>
+                        </volist>
+                    </select>
+
+
+                    <php>if(count($citys)>0){ </php>
+
+                    <select name="cityid" id="city_id">
+                        <volist name="citys" id="vo">
+                            <if condition="$data['city_id'] == $vo['city_id']" >
+                                <option value="{$vo.city_id}" selected>{$vo.city_name}</option>
+                                <else/>
+                                <option value="{$vo.city_id}" >{$vo.city_name}</option>
+                            </if>
+                        </volist>
+                    </select>
+                    <php>}else{</php>
+                    <select name="cityid" id="city_id">
+                    </select>
+
+
+
+                    <php>}</php>
+
+                </div>
+            <div class="control-group">
+                <label class="control-label">标题:</label>
+                <div class="controls">
+                    <input class="" name="title" type="text" placeholder="" value="{$data.title}"/> *
+                   </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠简介:</label>
+                <div class="controls">
+                    <textarea name="intro" cols="20" rows="5"> {$data.intro}</textarea> *
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠内容:</label>
+                <div class="controls">
+                    <textarea name="content" id="content" cols="20" rows="5"> {$data.content}</textarea> *
+                </div>
+            </div>
+
+        </fieldset>
+        <div class="form-actions">
+            <input name="id" type="hidden" value="{$data.id}">
+            <input name="formget[title]" type="hidden" value="{$formget['title']}">
+            <input name="formget[start_time]" type="hidden" value="{$formget['start_time']}">
+            <input name="formget[end_time]" type="hidden" value="{$formget['end_time']}">
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('discount_list',array('formget'=>$formget))}">{:L('BACK')}</a><!--   为“返回”按钮  传递查询条件的值   -->
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.DIMAUB;
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    var editorcontent = new baidu.editor.ui.Editor();
+    editorcontent.render('content');
+</script>
+<script>
+    function CityChanged(province_id){
+
+        $.ajax({
+            url:"{:U('Operation/location_api')}",
+            data:"province_id="+$("#city").val(),
+            dataType:"JSON",
+            success:function(ret){
+
+                cmbAddOption(ret.retValue);
+            }
+        });
+    }
+
+    function cmbAddOption(ret)
+    {
+        $("#city_id").empty();
+        var opetion = null;
+        for(var i =0; i<ret.length;i++){
+            opetion+= '<option value="'+ret[i].id+'">'+ret[i].city+'</option>';
+        }
+        $("#city_id").append(opetion);
+    }
+</script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+</body>
+</html>

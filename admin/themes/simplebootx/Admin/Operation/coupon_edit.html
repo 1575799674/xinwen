@@ -1,0 +1,286 @@
+<admintpl file="header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('Operation/coupon_list')}">优惠券修改</a></li>
+        <li class="active"><a>新增优惠券</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('Operation/coupon_edit')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">城市:</label>
+                <div class="controls">
+                    <select onchange="CityChanged();" id="city"  name="province_id">
+                        <option value="">==请选择省==</option>
+                        <volist name="province_data" id="vo">
+                            <if condition="$coupon_data['province_id'] == $vo['id']" >
+                                <option value="{$vo.id}" selected>{$vo.name}</option>
+                                <else/>
+                                <option value="{$vo.id}" >{$vo.name}</option>
+                            </if>
+                        </volist>
+                    </select>
+
+
+                    <php>if(count($citys)>0){ </php>
+
+                    <select name="city_id" id="city_id">
+                        <volist name="citys" id="vo">
+                            <if condition="$data['city_id'] == $vo['city_id']" >
+                                <option value="{$vo.city_id}" selected>{$vo.city_name}</option>
+                                <else/>
+                                <option value="{$vo.city_id}" >{$vo.city_name}</option>
+                            </if>
+                        </volist>
+                    </select>
+                    <php>}else{</php>
+                    <select name="city_id" id="city_id">
+                    </select>
+
+
+
+                    <php>}</php>
+
+                </div>
+            <div class="control-group">
+                <label class="control-label">优惠标题:</label>
+                <div class="controls">
+                    <input class="" name="title" type="text" placeholder=""  value="{$coupon_data.title}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠key:</label>
+                <div class="controls">
+                    <input class="" name="coupon_key" type="text" placeholder=""  value="{$coupon_data.coupon_key}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠说明:</label>
+                <div class="controls">
+                    <textarea class="" name="remark" rows="10" cols="30" placeholder="" >{$coupon_data.remark}</textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠类型:</label>
+                <div class="controls">
+                    <input type="radio" value="1" name="coupon_type" <if condition="$coupon_data.coupon_type ==1 ">checked</if> >抵扣券
+                    <input type="radio" value="2" name="coupon_type" <if condition="$coupon_data.coupon_type ==2 ">checked</if>>折扣券
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">数值:</label>
+                <div class="controls">
+                    <input class="" name="coupon_value" type="text" placeholder="" value="{$coupon_data.coupon_value}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">有效截至时间:</label>
+                <div class="controls">
+                    <input class="js-date" name="valid_end_time"  type="text" placeholder="" value="{$coupon_data.valid_end_time}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">下发数量:</label>
+                <div class="controls">
+                    <input class="" name="num" type="text" placeholder="" value="{$coupon_data.num}"/>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input name="coupon_id" type="hidden" value="{$coupon_data.coupon_id}">
+            <input name="is_complete" type="hidden" value="{$formget.is_complete}">
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('Operation/coupon_list',array('is_complete'=>$formget['is_complete']))}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+    function CityChanged(province_id){
+
+        $.ajax({
+            url:"{:U('Operation/location_api')}",
+            data:"province_id="+$("#city").val(),
+            dataType:"JSON",
+            success:function(ret){
+
+                cmbAddOption(ret.retValue);
+            }
+        });
+    }
+
+    function cmbAddOption(ret)
+    {
+        $("#city_id").empty();
+        var opetion = null;
+        for(var i =0; i<ret.length;i++){
+            opetion+= '<option value="'+ret[i].id+'">'+ret[i].city+'</option>';
+        }
+        $("#city_id").append(opetion);
+    }
+</script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+
+</body>
+</html>
+<!--
+  @12.12之后用
+  @到期时间和有效天数
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('Operation/coupon_list')}">优惠券修改</a></li>
+        <li class="active"><a>新增优惠券</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('Operation/coupon_edit')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">城市:</label>
+                <div class="controls">
+                    <select onchange="CityChanged();" id="city"  name="province_id">
+                        <option value="">==请选择省==</option>
+                        <volist name="province_data" id="vo">
+                            <if condition="$coupon_data['province_id'] == $vo['id']" >
+                                <option value="{$vo.id}" selected>{$vo.name}</option>
+                                <else/>
+                                <option value="{$vo.id}" >{$vo.name}</option>
+                            </if>
+                        </volist>
+                    </select>
+
+
+                    <php>if(count($citys)>0){ </php>
+
+                    <select name="city_id" id="city_id">
+                        <volist name="citys" id="vo">
+                            <if condition="$data['city_id'] == $vo['city_id']" >
+                                <option value="{$vo.city_id}" selected>{$vo.city_name}</option>
+                                <else/>
+                                <option value="{$vo.city_id}" >{$vo.city_name}</option>
+                            </if>
+                        </volist>
+                    </select>
+                    <php>}else{</php>
+                    <select name="city_id" id="city_id">
+                    </select>
+
+
+
+                    <php>}</php>
+
+                </div>
+                </div>
+            <div class="control-group">
+                <label class="control-label">优惠标题:</label>
+                <div class="controls">
+                    <input class="" name="title" type="text" placeholder=""  value="{$coupon_data.title}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠key:</label>
+                <div class="controls">
+                    <input class="" name="coupon_key" type="text" placeholder=""  value="{$coupon_data.coupon_key}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠说明:</label>
+                <div class="controls">
+                    <textarea class="" name="remark" rows="10" cols="30" placeholder="" >{$coupon_data.remark}</textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠类型:</label>
+                <div class="controls">
+                    <input type="radio" value="1" name="coupon_type" <if condition="$coupon_data.coupon_type ==1 ">checked</if> >抵扣券
+                    <input type="radio" value="2" name="coupon_type" <if condition="$coupon_data.coupon_type ==2 ">checked</if>>折扣券
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">数值:</label>
+                <div class="controls">
+                    <input class="" name="coupon_value" type="text" placeholder="" value="{$coupon_data.coupon_value}"/>
+                </div>
+            </div>
+             <div class="control-group">
+                <label class="control-label">优惠券过期时间类型:</label>
+                <div class="controls">
+                    <input type="radio" <?php if($coupon_data['effective_days'] != 0){ echo 'checked';}?> value="1"  name="coupon_time"  onclick="getEndTime(this)" id="day"  >有效天数 
+                    <input type="radio" <?php if($coupon_data['valid_end_time'] != '1993-05-21 23:59:00'){ echo 'checked';}?> value="2" name="coupon_time"  onclick="getEndTime(this)" id="time" >有效截止时间
+                </div>
+            </div> 
+                <div class="control-group" id="end_day" <?php if($coupon_data['valid_end_time'] != '1993-05-21 23:59:00'){ echo 'style="display:none"';}?>>
+                    <label class="control-label">有效天数:</label>
+                    <div class="controls">
+                        <input class="" name="effective_days"  type="text" placeholder="" value="{$coupon_data.effective_days}" id='end_day2'/>
+                    </div>
+                </div>
+                <div class="control-group" id="end_time" <?php if($coupon_data['effective_days'] != 0){ echo 'style="display:none"';}?>>
+                <label class="control-label">有效截止时间:</label>
+                <div class="controls">
+                    <input class="js-date" name="valid_end_time"  type="text" placeholder="" value="{$coupon_data.valid_end_time}" id="end_time2"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">下发数量:</label>
+                <div class="controls">
+                    <input class="" name="num" type="text" placeholder="" value="{$coupon_data.num}"/>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input name="coupon_id" type="hidden" value="{$coupon_data.coupon_id}">
+            <input name="is_complete" type="hidden" value="{$formget.is_complete}">
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('Operation/coupon_list',array('is_complete'=>$formget['is_complete']))}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+    function CityChanged(province_id){
+
+        $.ajax({
+            url:"{:U('Operation/location_api')}",
+            data:"province_id="+$("#city").val(),
+            dataType:"JSON",
+            success:function(ret){
+
+                cmbAddOption(ret.retValue);
+            }
+        });
+    }
+
+    function cmbAddOption(ret)
+    {
+        $("#city_id").empty();
+        var opetion = null;
+        for(var i =0; i<ret.length;i++){
+            opetion+= '<option value="'+ret[i].id+'">'+ret[i].city+'</option>';
+        }
+        $("#city_id").append(opetion);
+    }
+    
+   function getEndTime(obj)
+    {
+                if(obj.value =='1')
+		 {       
+			 document.getElementById('end_day').style.display = "";
+                         document.getElementById('end_time2').value = "1993-05-21 23:59";
+                         document.getElementById('end_time').style.display = "none"; 
+
+		  }else{
+                         document.getElementById('end_time').style.display = "";
+                         document.getElementById('end_day2').value = "0";
+                         document.getElementById('end_day').style.display = "none";
+		 }   
+     }
+</script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+
+</body>
+</html>
+-->

@@ -1,0 +1,243 @@
+<admintpl file="header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('coupon_list')}">优惠券列表</a></li>
+        <li class="active"><a>新增优惠券</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('conpon_add')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">城市:</label>
+                <div class="controls">
+                    <select onchange="CityChanged();" id="city">
+                        <option value="">==请选择省==</option>
+                        <volist name="province_data" id="vo">
+                            <option value="{$vo.id}">{$vo.name}</option>
+                        </volist>
+                    </select>
+                    <select name="city_id" id="city_id">
+
+                    </select>
+
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠标题:</label>
+                <div class="controls">
+                    <input class="" name="title" type="text" placeholder=""/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠key:</label>
+                <div class="controls">
+                    <input class="" name="coupon_key" type="text" placeholder="" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠说明:</label>
+                <div class="controls">
+                    <textarea class="" name="remark" rows="10" cols="30" placeholder=""></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠类型:</label>
+                <div class="controls">
+                    <input type="radio" value="1" name="coupon_type" checked >抵扣券 <input type="radio" value="2" name="coupon_type" >折扣券
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">数值:</label>
+                <div class="controls">
+                    <input class="" name="coupon_value" type="text" placeholder="" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">有效天数:</label>
+                <div class="controls">
+                    <input  type="text" class="" name="effective_days" placeholder="" value=""/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">下发数量:</label>
+                <div class="controls">
+                    <input class="" name="num" type="text" placeholder="" />
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('coupon_list')}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+    function CityChanged(province_id){
+
+        $.ajax({
+            url:"{:U('location_api')}",
+            data:"province_id="+$("#city").val(),
+            dataType:"JSON",
+            success:function(ret){
+
+                cmbAddOption(ret.retValue);
+            }
+        });
+    }
+
+    function cmbAddOption(ret)
+    {
+        $("#city_id").empty();
+        var opetion = null;
+       for(var i =0; i<ret.length;i++){
+           opetion+= '<option value="'+ret[i].id+'">'+ret[i].city+'</option>';
+       }
+        $("#city_id").append(opetion);
+    }
+
+</script>
+</body>
+</html>
+
+<!--
+
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('coupon_list')}">优惠券列表</a></li>
+        <li class="active"><a>新增优惠券</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('conpon_add')}" method="post">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">城市:</label>
+                <div class="controls">
+                    <select onchange="CityChanged();" id="city">
+                        <option value="">==请选择省==</option>
+                        <volist name="province_data" id="vo">
+                            <option value="{$vo.id}">{$vo.name}</option>
+                        </volist>
+                    </select>
+                    <select name="city_id" id="city_id">
+
+                    </select>
+
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠标题:</label>
+                <div class="controls">
+                    <input class="" name="title" type="text" placeholder=""/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠key:</label>
+                <div class="controls">
+                    <input class="" name="coupon_key" type="text" placeholder="" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠说明:</label>
+                <div class="controls">
+                    <textarea class="" name="remark" rows="10" cols="30" placeholder=""></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠类型:</label>
+                <div class="controls">
+                    <input type="radio" value="1" name="coupon_type" checked >抵扣券 <input type="radio" value="2" name="coupon_type" >折扣券
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">数值:</label>
+                <div class="controls">
+                    <input class="" name="coupon_value" type="text" placeholder="" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">优惠券过期时间类型:</label>
+                <div class="controls">
+                    <input type="radio" value="1" name="coupon_time" onclick="getEndTime(this)" id="day" checked >有效天数 
+                    <input id="time" type="radio" value="2" name="coupon_time" onclick="getEndTime(this)">有效截止时间
+                </div>
+            </div>
+            <div class="control-group" style="display:none" id="end_day">
+                <label class="control-label">有效天数:</label>
+                <div class="controls">
+                    <input  type="text" class="" name="effective_days" placeholder="" value="0"/>
+                </div>
+            </div>
+             <div class="control-group" style="display:none" id="end_time">
+                <label class="control-label" >有效截止时间:</label>
+                <div class="controls">
+                    <input  type="text" class="js-datetime" name="valid_end_time" placeholder="" value="1993-05-21 23:59"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">下发数量:</label>
+                <div class="controls">
+                    <input class="" name="num" type="text" placeholder="" />
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('coupon_list')}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+         window.onload = function(){ 
+         document.getElementById('day').style.checked="checked";
+         document.getElementById('end_day').style.display = "";
+    }
+    function CityChanged(province_id){
+
+        $.ajax({
+            url:"{:U('location_api')}",
+            data:"province_id="+$("#city").val(),
+            dataType:"JSON",
+            success:function(ret){
+
+                cmbAddOption(ret.retValue);
+            }
+        });
+    }
+
+    function cmbAddOption(ret)
+    {
+        $("#city_id").empty();
+        var opetion = null;
+       for(var i =0; i<ret.length;i++){
+           opetion+= '<option value="'+ret[i].id+'">'+ret[i].city+'</option>';
+       }
+        $("#city_id").append(opetion);
+    }
+    function getEndTime(obj)
+    {
+                if(obj.value =='1')
+		 {       document.getElementById('day').style.checked = "";
+			 document.getElementById('end_day').style.display = "";
+                         document.getElementById('end_time').style.display = "none"; 
+
+		  }else{
+			
+                         document.getElementById('end_day').style.display = "none";
+                         document.getElementById('end_time').style.display = "";
+		 }   
+     }
+    
+</script>
+</body>
+</html>
+-->
+<!--222
+22222
+22222
+-->

@@ -1,0 +1,81 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>在线反馈列表</a></li>
+    </ul>
+    <form class="well form-search" method="post" action="{:U('Operation/feedback_list')}">
+        反馈用户电话：<input type="text" name="formget[mobile]" style="width: 90px;" value="{$formget.mobile}"><!--   文本框的name写成  formget[mobile]，value写成 {$formget.mobile}-->
+        反馈时间：
+        <input type="text" name="formget[start_time]" class="js-date" value="{$formget.start_time|default=''}" style="width: 90px;" autocomplete="off">-
+        <input type="text" class="js-date" name="formget[end_time]" value="{$formget.end_time}" style="width: 90px;" autocomplete="off"> &nbsp; &nbsp;
+        &nbsp;&nbsp;</br>
+        反馈人类型：
+        <select class="select_2" name="formget[user_type]"  style="width:80px;" >
+            <option value='-1'>全部</option>
+            <option value='1'{$formget[user_type]==1?selected:''}>用户</option><!--   下拉框选中，获取查询值是通过 $formget[user_type]获取的-->
+            <option value='2'{$formget[user_type]==2?selected:''}>派单员</option>
+        </select> &nbsp;&nbsp;
+        反馈类型：
+        <select class="select_2" name="formget[feedback_type]"  style="width: 70px;" >
+            <option value='-1'>全部</option>
+            <option value='1'{$formget[user_type]==1?selected:''}>反馈</option>
+            <option value='2'{$formget[user_type]==2?selected:''}>投诉</option>
+        </select> &nbsp;&nbsp;
+        <input type="submit" class="btn btn-pr
+        imary" value="搜索" />
+    </form>
+    <form method="post" class="js-ajax-form">
+       <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+                <th align="center">序号</th>
+                <th>反馈人类型</th>
+                <th>反馈类型</th>
+                <th>反馈人电话</th>
+                <th>反馈时间</th>
+                <th>反馈主题</th>
+                <th>是否回复</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <php>
+                $user_types=array("1"=>'用户',"2"=>'派单员');
+                $feedback_types=array("1"=>'反馈',"2"=>'投诉');
+                $feedback_statuses=array("0"=>'未回复',"1"=>'回复');
+            </php>
+            <foreach name="datas" item="vo" key="k">
+                <tr>
+                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.feedback_id}" title="ID:{$vo.feedback_id}"></td>
+                    <td align="center">{$k+1}</td>
+                    <td>{$user_types[$vo[user_type]]}</td>
+                    <td>{$feedback_types[$vo[feedback_type]]}</td>
+                    <td>{$vo.mobile}</td>
+                    <td>{$vo.feedback_time}</td>
+                    <td>{$vo[feedback_title]}</td>
+                    <td>{$feedback_statuses[$vo[feedback_status]]}</td>
+                    <td align="center">
+                        <a href="{:U('Operation/feedback_rdit',array('feedback_id'=>empty($vo['feedback_id'])?'':$vo['feedback_id'],'formget'=>$formget))}">回复</a> |<!--   formget 是将值，传递给控制器的方法中 ，目的是为了再次进入页面时获得上次的查询条件的值，显示给客户-->
+                        <a href="{:U('Operation/feedback_del',array('feedback_id'=>empty($vo['feedback_id'])?'':$vo['feedback_id'],'formget'=>$formget))}" class="js-ajax-delete">{:L('DELETE')}</a>|<!--   查询参数在页面跳转时，保持原查询值，是通过一串串的get参数传递的。 -->
+                        <a href="{:U('Operation/feedback_see',array('feedback_id'=>empty($vo['feedback_id'])?'':$vo['feedback_id'],'formget'=>$formget))}">查看</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <if condition="empty($datas)">
+            <div style="padding: 30px;text-align: center;color: #999999">
+                <i class="fa fa-database" style="font-size: 38px"></i><br />
+                暂无数据
+            </div>
+        </if>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+
+</body>
+</html>

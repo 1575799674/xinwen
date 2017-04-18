@@ -1,0 +1,52 @@
+<admintpl file="header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('res_type_list')}">物品类型列表</a></li>
+        <li class="active"><a>新增物品类型</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-form" action="{:U('res_type_add')}" method="post">
+        <fieldset>
+
+            <div class="control-group">
+                <label class="control-label">所属类型:</label>
+                <div class="controls">
+                    <select class="select_2" name="type"  style="width: 100px;" >
+                        <option value='1' {:I("type")==1?selected:''}>取送类别</option>
+                        <option value='2' {:I("type")==2?selected:''}>代买类别</option>
+                        <option value='3' {:I("type")==3?selected:''}>排队类别</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">类型名称:</label>
+                <div class="controls">
+                    <input class="" name="res_type" type="text" placeholder=""/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">排序:</label>
+                <div class="controls">
+                    <input class="" name="sort" type="text" placeholder=""/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">保价金额:</label>
+                <div class="controls">
+                    <input class="" name="insur_account" type="text" placeholder=""/>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+
+            <button type="submit" class="btn btn-primary  js-ajax-submit">{:L('SAVE')}</button>
+            <a class="btn" href="{:U('res_type_list')}">{:L('BACK')}</a>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+
+</body>
+</html>

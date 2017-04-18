@@ -1,0 +1,59 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>在线帮助</a></li>
+        <li><a href="{:U('add_help')}">新增帮助</a></li>
+    </ul>
+
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th width="15"><label><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></label></th>
+                <th align="center">序号</th>
+                <th>帮助编码</th>
+                <th>帮助类别</th>
+               <!-- <th>帮助内容</th>-->
+                <th>备注</th>
+                <th align="center">
+                    操作
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <foreach name="onlineData" item="vo" key="k">
+                <tr>
+                    <td><input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]" value="{$vo.dispatch_id}" title="ID:{$vo.dispatch_id}"></td>
+                    <td align="center">{$k+1}</td>
+                    <td>{$vo['help_code']}</td>
+                    <td>{$vo['help_type_id']|getTypeName}</td>
+                    <td>{$vo.remark}</td>
+                    <td align="center">
+                        <!--<a href="{:U('add_help')}&help_type_id={$vo.help_type_id}">新增帮助</a>|-->
+                        <a href="{:U('online_help_edit')}&help_id={$vo.help_id}">编辑</a>|
+                        <a href="{:U('online_help_del')}&help_id={$vo.help_id}" class="js-ajax-delete">删除</a>|
+                        <a href="{:U('online_help_see')}&help_id={$vo.help_id}">详情</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <if condition="empty($onlineData)">
+            <div style="padding: 30px;text-align: center;color: #999999">
+                <i class="fa fa-database" style="font-size: 38px"></i><br />
+                暂无数据
+            </div>
+        </if>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+
+<script>
+
+</script>
+</body>
+</html>
